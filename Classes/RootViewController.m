@@ -53,9 +53,9 @@
 	self.itemsToDisplay = [NSArray array];
 	
 	// Refresh button
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh 
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh 
 																							target:self 
-																							action:@selector(refresh)] autorelease];
+																							action:@selector(refresh)];
 	// Parse
 	NSURL *feedURL = [NSURL URLWithString:@"http://images.apple.com/main/rss/hotnews/hotnews.rss"];
 	feedParser = [[MWFeedParser alloc] initWithFeedURL:feedURL];
@@ -99,8 +99,8 @@
 - (void)feedParserDidFinish:(MWFeedParser *)parser {
 	NSLog(@"Finished Parsing%@", (parser.stopped ? @" (Stopped)" : @""));
 	self.itemsToDisplay = [parsedItems sortedArrayUsingDescriptors:
-						   [NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"date" 
-																				 ascending:NO] autorelease]]];
+						   [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"date" 
+																				 ascending:NO]]];
 	self.tableView.userInteractionEnabled = YES;
 	self.tableView.alpha = 1;
 	[self.tableView reloadData];
@@ -136,7 +136,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
@@ -169,7 +169,6 @@
 	DetailTableViewController *detail = [[DetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
 	detail.item = (MWFeedItem *)[itemsToDisplay objectAtIndex:indexPath.row];
 	[self.navigationController pushViewController:detail animated:YES];
-	[detail release];
 	
 	// Deselect
 	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -179,12 +178,5 @@
 #pragma mark -
 #pragma mark Memory management
 
-- (void)dealloc {
-	[formatter release];
-	[parsedItems release];
-	[itemsToDisplay release];
-	[feedParser release];
-    [super dealloc];
-}
 
 @end
